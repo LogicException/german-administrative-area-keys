@@ -1,8 +1,7 @@
 # german administrative area keys
 
-This package contains types and const of all german administrative areas. 
-There are classes for typical german area keys AGS (Amtlicher Gemeindeschlüssel) 
-and ARS (Amtlicher Regionalschlüssel).
+This package contains types and classes for german area keys 
+AGS (Amtlicher Gemeindeschlüssel) and ARS (Amtlicher Regionalschlüssel).
 
 You can download the latest record of all german administrative areas from: 
 
