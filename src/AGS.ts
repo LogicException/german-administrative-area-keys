@@ -41,7 +41,7 @@ export class AGS {
 class AgsParser {
     public static parse(ags: string): AGS {
 
-        if (!/^[0-9]{2,8}$/.test(ags)) {
+        if (!/^\d{2,8}$/.test(ags)) {
             throw new Error("invalid AGS string");
         }
         const land = AgsParser.parseBundeslandSchluessel(ags);
@@ -65,8 +65,8 @@ class AgsParser {
         return new AGS(land, rb, kreis, gemeinde);
     }
 
-    private static parseBundeslandSchluessel(agr: string): BundeslandSchluessel {
-        const land = agr.substr(0, 2);
+    private static parseBundeslandSchluessel(ags: string): BundeslandSchluessel {
+        const land = ags.substr(0, 2);
         if (!AgsParser.isBundeslandSchluessel(land)) {
             throw new Error("invalid AGS Bundesland string");
         }
@@ -77,8 +77,8 @@ class AgsParser {
         return /^([0][1-9]|[1][0-4])$/.test(land);
     }
 
-    private static parseRegierunsbezirkSchluessel(agr: string): RegierungsbezirkSchluessel {
-        const rb = agr.substr(2, 1);
+    private static parseRegierunsbezirkSchluessel(ags: string): RegierungsbezirkSchluessel {
+        const rb = ags.substr(2, 1);
         if (!AgsParser.isRegierungsbezirkSchluessel(rb)) {
             throw new Error("invalid AGS Regierungsbezirk string");
         }
@@ -86,11 +86,11 @@ class AgsParser {
     }
 
     private static isRegierungsbezirkSchluessel(rb: string): rb is RegierungsbezirkSchluessel {
-        return /^[0-9]$/.test(rb);
+        return /^\d$/.test(rb);
     }
 
-    private static parseKreisSchluessel(agr: string): KreisSchluessel {
-        const kreis = agr.substr(3, 2);
+    private static parseKreisSchluessel(ags: string): KreisSchluessel {
+        const kreis = ags.substr(3, 2);
         if (!AgsParser.isKreisSchluessel(kreis)) {
             throw new Error("invalid AGS Kreis string");
         }
@@ -98,11 +98,11 @@ class AgsParser {
     }
 
     private static isKreisSchluessel(kreis: string): kreis is KreisSchluessel {
-        return /^[0-9]{2}$/.test(kreis);
+        return /^\d{2}$/.test(kreis);
     }
 
-    private static parseGemeindeSchluessel(agr: string): GemeindeSchluessel {
-        const gemeinde = agr.substr(5, 3);
+    private static parseGemeindeSchluessel(ags: string): GemeindeSchluessel {
+        const gemeinde = ags.substr(5, 3);
         if (!AgsParser.isGemeindeSchluessel(gemeinde)) {
             throw new Error("invalid AGS Gemeinde string");
         }
@@ -110,6 +110,6 @@ class AgsParser {
     }
 
     private static isGemeindeSchluessel(gemeinde: string): gemeinde is GemeindeSchluessel {
-        return /^[0-9]{3}$/.test(gemeinde);
+        return /^\d{3}$/.test(gemeinde);
     }
 }

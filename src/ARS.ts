@@ -27,9 +27,9 @@ export class ARS {
         this.gemeinde = gemeinde;
     }
 
-    public static fromString(agr: string): ARS | null {
+    public static fromString(ars: string): ARS | null {
         try {
-            return AgrParser.parse(agr);
+            return ArsParser.parse(ars);
         } catch (e) {
             console.error(e);
         }
@@ -80,42 +80,42 @@ export class ARS {
     }
 }
 
-class AgrParser {
-    public static parse(agr: string): ARS {
-        if (!/^[0-9]{2,12}$/.test(agr)) {
-            throw new Error("invalid AGR string");
+class ArsParser {
+    public static parse(ars: string): ARS {
+        if (!/^\d{2,12}$/.test(ars)) {
+            throw new Error("invalid ARS string");
         }
 
-        const land = AgrParser.parseBundeslandSchluessel(agr);
-        const len = agr.length;
+        const land = ArsParser.parseBundeslandSchluessel(ars);
+        const len = ars.length;
 
         let rb: RegierungsbezirkSchluessel = null;
         if (len >= 3) {
-            rb = AgrParser.parseRegierunsbezirkSchluessel(agr);
+            rb = ArsParser.parseRegierunsbezirkSchluessel(ars);
         }
 
         let kreis: KreisSchluessel = null;
         if (len >= 5) {
-            kreis = AgrParser.parseKreisSchluessel(agr);
+            kreis = ArsParser.parseKreisSchluessel(ars);
         }
 
         let verband: VerbandSchluessel = null;
         if (len >= 9) {
-            verband = AgrParser.parseVerbandSchluessel(agr);
+            verband = ArsParser.parseVerbandSchluessel(ars);
         }
 
         let gemeinde: GemeindeSchluessel = null;
         if (len === 12) {
-            gemeinde = AgrParser.parseGemeindeSchluessel(agr);
+            gemeinde = ArsParser.parseGemeindeSchluessel(ars);
         }
 
         return new ARS(land, rb, kreis, verband, gemeinde);
     }
 
-    private static parseBundeslandSchluessel(agr: string): BundeslandSchluessel {
-        const land = agr.substr(0, 2);
-        if (!AgrParser.isBundeslandSchluessel(land)) {
-            throw new Error("invalid AGR Bundesland string");
+    private static parseBundeslandSchluessel(ars: string): BundeslandSchluessel {
+        const land = ars.substr(0, 2);
+        if (!ArsParser.isBundeslandSchluessel(land)) {
+            throw new Error("invalid ARS Bundesland string");
         }
         return land;
     }
@@ -124,51 +124,51 @@ class AgrParser {
         return /^([0][1-9]|[1][0-4])$/.test(land);
     }
 
-    private static parseRegierunsbezirkSchluessel(agr: string): RegierungsbezirkSchluessel {
-        const rb = agr.substr(2, 1);
-        if (!AgrParser.isRegierungsbezirkSchluessel(rb)) {
-            throw new Error("invalid AGR Regierungsbezirk string");
+    private static parseRegierunsbezirkSchluessel(ars: string): RegierungsbezirkSchluessel {
+        const rb = ars.substr(2, 1);
+        if (!ArsParser.isRegierungsbezirkSchluessel(rb)) {
+            throw new Error("invalid ARS Regierungsbezirk string");
         }
         return rb;
     }
 
     private static isRegierungsbezirkSchluessel(rb: string): rb is RegierungsbezirkSchluessel {
-        return /^[0-9]$/.test(rb);
+        return /^\d$/.test(rb);
     }
 
-    private static parseKreisSchluessel(agr: string): KreisSchluessel {
-        const kreis = agr.substr(3, 2);
-        if (!AgrParser.isKreisSchluessel(kreis)) {
-            throw new Error("invalid AGR Kreis string");
+    private static parseKreisSchluessel(ars: string): KreisSchluessel {
+        const kreis = ars.substr(3, 2);
+        if (!ArsParser.isKreisSchluessel(kreis)) {
+            throw new Error("invalid ARS Kreis string");
         }
         return kreis;
     }
 
     private static isKreisSchluessel(kreis: string): kreis is KreisSchluessel {
-        return /^[0-9]{2}$/.test(kreis);
+        return /^\d{2}$/.test(kreis);
     }
 
-    private static parseVerbandSchluessel(agr: string): VerbandSchluessel {
-        const verband = agr.substr(5, 4);
-        if (!AgrParser.isVerbandSchluessel(verband)) {
-            throw new Error("invalid AGR Verband string");
+    private static parseVerbandSchluessel(ars: string): VerbandSchluessel {
+        const verband = ars.substr(5, 4);
+        if (!ArsParser.isVerbandSchluessel(verband)) {
+            throw new Error("invalid ARS Verband string");
         }
         return verband;
     }
 
     private static isVerbandSchluessel(verband: string): verband is VerbandSchluessel {
-        return /^([059])[0-9]{3}$/.test(verband);
+        return /^([059])\d{3}$/.test(verband);
     }
 
-    private static parseGemeindeSchluessel(agr: string): GemeindeSchluessel {
-        const gemeinde = agr.substr(9, 3);
-        if (!AgrParser.isGemeindeSchluessel(gemeinde)) {
-            throw new Error("invalid AGR Gemeinde string");
+    private static parseGemeindeSchluessel(ars: string): GemeindeSchluessel {
+        const gemeinde = ars.substr(9, 3);
+        if (!ArsParser.isGemeindeSchluessel(gemeinde)) {
+            throw new Error("invalid ARS Gemeinde string");
         }
         return gemeinde;
     }
 
     private static isGemeindeSchluessel(gemeinde: string): gemeinde is GemeindeSchluessel {
-        return /^[0-9]{3}$/.test(gemeinde);
+        return /^\d{3}$/.test(gemeinde);
     }
 }

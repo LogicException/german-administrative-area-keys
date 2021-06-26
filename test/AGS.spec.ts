@@ -3,7 +3,7 @@ import {expect} from "chai";
 import {AGS} from "../src/AGS";
 
 describe("AGS can be parsed", () => {
-    it("should can create AGR", () => {
+    it("should can create AGS", () => {
         const ags = new AGS("14", "7", "30", "070");
 
         expect(ags).not.to.be.null;
