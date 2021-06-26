@@ -1,6 +1,6 @@
 {
   "name": "german-administrative-area-keys",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "codes and official abbreviations",
   "main": "index.js",
   "scripts": {
