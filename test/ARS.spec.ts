@@ -26,11 +26,13 @@ describe("ARS can be parsed", () => {
 
     it("should can use ARS as string", () => {
         const ars = new ARS("14", "7", "30", "0070", "070");
+
         expect(ars.toString()).to.be.eq("147300070070");
     });
 
     it("should can create ARS from string", () => {
         const ars = ARS.fromString("147300070070");
+
         expect(ars).not.to.be.null;
         expect(ars.land).to.be.eq("14");
         expect(ars.regierunsbezirk).to.be.eq("7");
@@ -42,25 +44,35 @@ describe("ARS can be parsed", () => {
     it("should can create AGS from ARS", () => {
         const ars = new ARS("14", "7", "30", "0070", "070");
         const ags = ars.toAGS();
+
         expect(ags.toString()).to.be.eq("14730070");
     });
 
     it("should can get Verbandstyp VerbandsfreieGemeinde from ARS", () => {
         // Delitzsch
         const ars = new ARS("14", "7", "30", "0070", "070");
+
         expect(ars.isVerbandsfreieGemeinde()).to.be.true;
+        expect(ars.isVerbandsangehoerigeGemeinde()).to.be.false;
+        expect(ars.isGemeindefreiesGebiet()).to.be.false;
     });
 
     it("should can get Verbandstyp VerbandsangehoerigeGemeinde from ARS", () => {
         // Pirna
         const ars = new ARS("14", "6", "28", "5229", "270");
+
+        expect(ars.isVerbandsfreieGemeinde()).to.be.false;
         expect(ars.isVerbandsangehoerigeGemeinde()).to.be.true;
+        expect(ars.isGemeindefreiesGebiet()).to.be.false;
     });
 
     it("should can get Verbandstyp GemeindefreiesGebiet from ARS", () => {
         // Sachsenwald: 010539105105
         const ars = ARS.fromString("010539105105");
+
         expect(ars).not.to.be.null;
+        expect(ars.isVerbandsfreieGemeinde()).to.be.false;
+        expect(ars.isVerbandsangehoerigeGemeinde()).to.be.false;
         expect(ars.isGemeindefreiesGebiet()).to.be.true;
     });
 });
